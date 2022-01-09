@@ -7,8 +7,12 @@ from scripts.utils import setup_resources
 logging.basicConfig(level=logging.INFO)
 
 model_type = 'alexnet'
+file_prefix = 'pengus'
 
-metadata, id_to_meta_mapping, index = setup_resources(model_type=model_type)
+metadata, id_to_meta_mapping, index = setup_resources(
+	file_prefix=file_prefix, 
+	model_type=model_type
+)
 
 app = Flask(__name__)
 
@@ -30,21 +34,29 @@ def search():
 		)
 		return jsonify(results)
 
-@app.route('/update', methods = ['GET'])
+@app.route('/update', methods = ['POST'])
 def update():
-	if request.method == 'GET':
+	if request.method == 'POST':
+		global file_prefix
 		global metadata
 		global id_to_meta_mapping
 		global index
 
-		metadata, id_to_meta_mapping, index = setup_resources(redownload=True)
+		if request.form.get('new_prefix'):
+			file_prefix = request.form.get('new_prefix')
+
+		metadata, id_to_meta_mapping, index = setup_resources(
+			model_type='alexnet', 
+			file_prefix=file_prefix, 
+			redownload=True)
 
 		return 'Success'
 
 @app.route('/get_collections', methods= ['GET'])
 def get_cols(model_type=model_type):
+	global file_prefix
 	if request.method == 'GET':
-		all_cols_filename = f'data/latest_all_collections_embedded_{model_type}.txt'
+		all_cols_filename = f'data/{file_prefix}_collections_embedded_{model_type}.txt'
 
 		with open(all_cols_filename, 'r') as f:
 			all_cols = f.readlines()

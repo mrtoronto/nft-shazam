@@ -40,7 +40,6 @@ def search_index(
 		meta_id = id_to_meta_mapping[str(i)].strip()
 		metadata[meta_id].update({'score': float(s)})
 		out_list.append(metadata[meta_id])
-		# print(json.dumps(metadata[meta_id], indent=4, default=str))
 
 	run_time = round(time.time() - start_time, 4)
 	print(f'Searched through {index.ntotal} vectors in {run_time}s')

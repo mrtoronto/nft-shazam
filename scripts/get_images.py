@@ -78,7 +78,7 @@ def export_data(date_suffix, collection_name, model_type, embs, ids):
 
 def update_all_cols_file(model_type, date_suffix, collection_name):
 
-	all_cols_filename = f'data/latest_all_collections_embedded_{model_type}.txt'
+	all_cols_filename = f'data/latest_collections_embedded_{model_type}.txt'
 
 	try:
 		download_blob(all_cols_filename, all_cols_filename)
@@ -94,8 +94,8 @@ def update_all_cols_file(model_type, date_suffix, collection_name):
 
 	### Update list of all collections embedded
 	all_cols_filenames = [
-		f'data/latest_all_collections_embedded_{model_type}.txt',
-		f'data/archive/all_collections_embedded_{model_type}{date_suffix}.txt'
+		f'data/latest_collections_embedded_{model_type}.txt',
+		f'data/archive/latest_collections_embedded_{model_type}{date_suffix}.txt'
 	]
 	for all_cols_filename in all_cols_filenames:
 
