@@ -1,5 +1,7 @@
+import json
 import datetime
 import logging
+from config.local_settings import firestore_creds
 from googleapiclient import discovery
 from googleapiclient.errors import HttpError
 from google.oauth2 import service_account
@@ -55,8 +57,8 @@ def submit_job(task_name, scale_tier=None, extra_args=None, master_type=None, ac
 
 def download_embed_images_Task(event="", context=""):
 	extra_args = ['--model_type', 'alexnet',
-				'--collections', 'non-fungible-olive-gardens, lilpudgys, uncool-cats-nft, creaturetoadz, cryptoflyz, niftydegen, eponym, obitsofficial, pussyriotacab, supermetalmons, zombietoadzofficial, lockdown-lemmings'
-				# '--collections', 'adam-bomb-squad'
+				# '--collections', 'non-fungible-olive-gardens, lilpudgys, uncool-cats-nft, creaturetoadz, cryptoflyz, niftydegen, eponym, obitsofficial, pussyriotacab, supermetalmons, zombietoadzofficial, lockdown-lemmings'
+				'--collections', 'pussyriotacab'
 				]
 	
 	submit_job(task_name='download_embed_images', 
