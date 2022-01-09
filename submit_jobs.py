@@ -35,7 +35,12 @@ def submit_job(task_name, scale_tier=None, extra_args=None, master_type=None, ac
 		training_inputs.update({'masterConfig': {'acceleratorConfig': {'count': 1, 'type': accelerator_type}}})
 
 	scopes = ['https://www.googleapis.com/auth/cloud-platform']
-	credentials = service_account.Credentials.from_service_account_file('config/sa.json', scopes=scopes)
+
+	creds_filename = '/tmp/creds.json'
+	with open('/tmp/creds.json', 'w') as f:
+		json.dump(firestore_creds, f)
+	
+	credentials = service_account.Credentials.from_service_account_file(creds_filename, scopes=scopes)
 	job_spec = {"jobId": job_name, "trainingInput": training_inputs}
 	cloudml = discovery.build("ml", "v1", cache_discovery=False, credentials=credentials)
 	request = cloudml.projects().jobs().create(body=job_spec, parent=project_id)
